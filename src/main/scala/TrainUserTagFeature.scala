@@ -1,5 +1,5 @@
 import org.apache.commons.cli.{Options, PosixParser}
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{Row, SparkSession}
 import org.apache.spark.sql.functions.{avg, udf}
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.types.{FloatType, StringType, StructField, StructType}
@@ -128,7 +128,7 @@ object TrainUserTagFeature {
           tagScoreArray(index) = score
         }
       }
-      tagScoreArray
+      Row.fromSeq(tagScoreArray)
     }, tagSchema)
 
     val uidDistinctDF = spark.read.textFile(trainInput).withColumn("uid", extractUidUDF($"value")).select($"uid").distinct()
