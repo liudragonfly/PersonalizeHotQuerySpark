@@ -17,7 +17,6 @@ object TrainUserTagFeature {
     val options = new Options()
     options.addOption("train", true, "train file input")
     options.addOption("user_tag", true, "user tag input")
-
     options.addOption("output", true, "output")
 
     val parser = new PosixParser()
