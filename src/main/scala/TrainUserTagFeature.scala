@@ -120,7 +120,7 @@ object TrainUserTagFeature {
       val userid = array(0)
       val tagsArray = array(1).split(",")
       for(tagStr <- tagsArray){
-        val tagArray = tagStr.split("\t")
+        val tagArray = tagStr.split(":")
         val tag = tagArray(0)
         val score = tagArray(1).toFloat
         val index = tagIndex.getOrElse(tag, -1)
