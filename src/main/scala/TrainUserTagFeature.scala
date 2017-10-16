@@ -5,7 +5,6 @@ import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.types.{FloatType, StringType, StructField, StructType}
 
 import scala.collection.mutable
-import scala.util.control._
 
 /**
   * Created by hzliulongfei on 2017/10/14/0014.
@@ -15,13 +14,13 @@ object TrainUserTagFeature {
   def main(args: Array[String]): Unit = {
     val spark = SparkSession.builder().getOrCreate()
 
-    val options = new Options
+    val options = new Options()
     options.addOption("train", true, "train file input")
     options.addOption("user_tag", true, "user tag input")
 
     options.addOption("output", true, "output")
 
-    val parser = new PosixParser
+    val parser = new PosixParser()
     val cmd = parser.parse(options, args)
 
     val trainInput = cmd.getOptionValue("train")
@@ -137,7 +136,7 @@ object TrainUserTagFeature {
     uidDistinctDF.printSchema()
     uidDistinctDF.createOrReplaceTempView("user_distinct")
 
-    val userTagDF = spark.read.textFile(userTagInput).withColumn("queryid", extractUidUDF($"value")).withColumn("tag", extractTagUDF($"value"))
+    val userTagDF = spark.read.textFile(userTagInput).withColumn("uid", extractUidUDF($"value")).withColumn("tag", extractTagUDF($"value"))
     userTagDF.printSchema()
 
     // 将trainDF和userTagDF进行join
