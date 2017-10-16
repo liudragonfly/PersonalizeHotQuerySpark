@@ -133,12 +133,33 @@ object TrainUserTagFeature {
 
     val uidDistinctDF = spark.read.textFile(trainInput).withColumn("uid", extractUidUDF($"value")).select($"uid").distinct()
     uidDistinctDF.printSchema()
-    uidDistinctDF.createOrReplaceTempView("user_distinct")
+    uidDistinctDF.createOrReplaceTempView("uid_distinct")
 
     val userTagDF = spark.read.textFile(userTagInput).withColumn("uid", extractUidUDF($"value")).withColumn("tag", extractTagUDF($"value"))
+    .select($"uid",
+      $"tag.摇滚_7", $"tag.民谣_7", $"tag.说唱_7", $"tag.轻音乐_7", $"tag.古风_7", $"tag.影视原声_7",
+      $"tag.轻音乐_8", $"tag.ACG_8", $"tag.影视原声_8",
+      $"tag.民谣_16", $"tag.轻音乐_16", $"tag.影视原声_16",
+      $"tag.摇滚_96", $"tag.民谣_96", $"tag.电子_96", $"tag.说唱_96", $"tag.轻音乐_96", $"tag.爵士_96", $"tag.影视原声_96", $"tag.乡村_96", $"tag.R&B/Soul_96", $"tag.金属_96", $"tag.朋克_96", $"tag.雷鬼_96", $"tag.拉丁_96",
+      $"tag.摇滚_1073741824", $"tag.民谣_1073741824", $"tag.电子_1073741824", $"tag.说唱_1073741824", $"tag.轻音乐_1073741824", $"tag.爵士_1073741824", $"tag.影视原声_1073741824", $"tag.乡村_1073741824", $"tag.Soul_1073741824", $"tag.金属_1073741824", $"tag.朋克_1073741824", $"tag.雷鬼_1073741824", $"tag.拉丁_1073741824")
     userTagDF.printSchema()
+    userTagDF.createOrReplaceTempView("user_tag")
 
     // 将trainDF和userTagDF进行join
+    val resultDF = spark.sql(
+      """select * from
+        |uid_distinct t1 left join user_tag t2
+        |on t1.uid = t2.uid
+      """.stripMargin)
+
+    resultDF.printSchema()
+    resultDF.show()
+
+    val fileSystem = FileSystem.get(spark.sparkContext.hadoopConfiguration)
+
+    if(fileSystem.exists(new Path(output))) fileSystem.delete(new Path(output), true)
+
+    resultDF.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save(output)
 
     spark.stop()
   }
