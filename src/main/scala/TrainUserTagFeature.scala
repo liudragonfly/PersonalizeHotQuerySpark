@@ -147,7 +147,7 @@ object TrainUserTagFeature {
 
     // 将trainDF和userTagDF进行join
     val resultDF = spark.sql(
-      """select * from
+      """select t2.* from
         |uid_distinct t1 left join user_tag t2
         |on t1.uid = t2.uid
       """.stripMargin)
