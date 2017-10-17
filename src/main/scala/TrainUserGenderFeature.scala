@@ -56,6 +56,8 @@ object TrainUserGenderFeature {
 
     if(fileSystem.exists(new Path(output))) fileSystem.delete(new Path(output), true)
 
+    resultDF.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save(output)
+
     spark.stop()
   }
 }
