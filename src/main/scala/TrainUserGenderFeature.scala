@@ -44,7 +44,7 @@ object TrainUserGenderFeature {
     userGenderDF.createOrReplaceTempView("user_gender")
 
     val resultDF = spark.sql(
-      """select t2.* form
+      """select t2.* from
         |uid_distinct t1 left join user_gender t2
         |on t1.uid = t2.uid
       """.stripMargin)
