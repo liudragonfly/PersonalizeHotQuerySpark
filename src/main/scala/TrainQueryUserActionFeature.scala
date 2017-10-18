@@ -41,7 +41,7 @@ object TrainQueryUserActionFeature {
         |queryid_distinct t1
         |left join query_user_action t2
         |on t1.queryid = t2.queryid
-      """.stripMargin)
+      """.stripMargin).na.fill("0", Seq("total", "click", "ps_count", "add", "download", "like", "ppdown", "pplike"))
 
     resultDF.printSchema()
     resultDF.show()

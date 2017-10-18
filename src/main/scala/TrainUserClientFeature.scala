@@ -68,7 +68,7 @@ object TrainUserClientFeature {
     userClientDF.createOrReplaceTempView("user_client")
 
     // 将trainDF和userClientDF进行join
-    val resultDF = spark.sql("select t1.uid, t2.client from uid_distinct t1 left join user_client t2 on t1.uid = t2.uid")
+    val resultDF = spark.sql("select t1.uid, t2.client from uid_distinct t1 left join user_client t2 on t1.uid = t2.uid").na.fill("other", Seq("client"))
     resultDF.printSchema()
     resultDF.show()
 
