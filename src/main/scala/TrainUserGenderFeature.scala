@@ -31,7 +31,12 @@ object TrainUserGenderFeature {
 
     val extractGenderUDF = udf((row: String) => {
       // UserId \t LastLoginTime \t Gender \t City \t AccountStatus \t Birthday \t Province \t CreateTime
-      val gender = row.split("\t")(2)
+      val gender = row.split("\t")(2) match {
+          case "0" => "0"
+          case "1" => "1"
+          case "2" => "2"
+          case _ => "0"
+      }
       gender
     })
 
