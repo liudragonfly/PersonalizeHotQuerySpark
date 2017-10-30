@@ -9,7 +9,7 @@ import org.apache.hadoop.fs.{FileSystem, Path}
   * Created by hzliulongfei on 2017/10/12/0012.
   * 抽取最近N天query级别的用户行为特征
   */
-object QueryUserActionFeature {
+object QueryUserActionFeatureCSV {
   def main(args: Array[String]): Unit = {
     val spark = SparkSession.builder().getOrCreate()
 
