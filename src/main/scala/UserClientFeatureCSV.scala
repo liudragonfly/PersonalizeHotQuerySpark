@@ -5,7 +5,9 @@ import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.types.{FloatType, StringType, StructField, StructType}
 
 import scala.collection.mutable
-import scala.util.control.Breaks/**
+import scala.util.control.Breaks
+
+/**
   * Created by hzliulongfei on 2017/10/30/0030.
   */
 object UserClientFeatureCSV {
