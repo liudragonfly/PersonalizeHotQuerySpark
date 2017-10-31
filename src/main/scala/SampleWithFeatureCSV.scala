@@ -45,10 +45,10 @@ object SampleWithFeatureCSV {
         | (
         | sample left join user_client
         | on sample.uid=user_client.uid
-        | ) t1 left join user_profile
-        | on t1.uid=user_profile.uid
-        | )t2 left join query_useraction
-        | on t2.queryid=query_useraction.queryid
+        | ) left join user_profile
+        | on sample.uid=user_profile.uid
+        | ) left join query_useraction
+        | on sample.queryid=query_useraction.queryid
       """.stripMargin)
 
     sampleWithFeatureDF.printSchema()
