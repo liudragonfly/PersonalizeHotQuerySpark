@@ -43,7 +43,7 @@ object TrainSampleCSV {
       array(2) = label
 
       Row.fromSeq(trainSampleArray)
-    })
+    }, trainSampleSchema)
 
     val trainSampleDF = spark.read.textFile(trainSampleInput).withColumn("info", trainSampleUDF($"value"))
     .select($"info.uid", $"info.queryid", $"info.label").na.drop()
