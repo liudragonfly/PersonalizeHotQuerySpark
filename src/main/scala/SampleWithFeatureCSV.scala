@@ -41,13 +41,12 @@ object SampleWithFeatureCSV {
       """select sample.uid, sample.queryid, sample.label, user_client.client, user_profile.gender,
         | query_useraction.total, query_useraction.click, query_useraction.ps_count, query_useraction.add,
         | query_useraction.download, query_useraction.like, query_useraction.ppdown, query_useraction.pplike
-        | from (
-        | (
-        | sample left join user_client
+        | from sample
+        | left join user_client
         | on sample.uid=user_client.uid
-        | ) left join user_profile
+        | left join user_profile
         | on sample.uid=user_profile.uid
-        | ) left join query_useraction
+        | left join query_useraction
         | on sample.queryid=query_useraction.queryid
       """.stripMargin)
 
