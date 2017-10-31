@@ -38,9 +38,9 @@ object TrainSampleCSV {
       val queryid = array(1)
       val label = array(3)
 
-      array(0) = uid
-      array(1) = queryid
-      array(2) = label
+      trainSampleArray(0) = uid
+      trainSampleArray(1) = queryid
+      trainSampleArray(2) = label
 
       Row.fromSeq(trainSampleArray)
     }, trainSampleSchema)
@@ -48,6 +48,7 @@ object TrainSampleCSV {
     val trainSampleDF = spark.read.textFile(trainSampleInput).withColumn("info", trainSampleUDF($"value"))
     .select($"info.uid", $"info.queryid", $"info.label").na.drop()
     trainSampleDF.printSchema()
+    trainSampleDF.count()
 
     val fileSystem = FileSystem.get(spark.sparkContext.hadoopConfiguration)
 
