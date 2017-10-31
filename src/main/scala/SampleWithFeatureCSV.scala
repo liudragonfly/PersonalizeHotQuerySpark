@@ -39,7 +39,7 @@ object SampleWithFeatureCSV {
     // TODO: 多个表进行join
     val sampleWithFeatureDF = spark.sql(
       """select sample.uid, sample.queryid, sample.label, user_client.client, user_profile.gender,
-        | query_useraction.total, query_useraction.click, query_useraction.ps_count, query_useraction.add
+        | query_useraction.total, query_useraction.click, query_useraction.ps_count, query_useraction.add,
         | query_useraction.download, query_useraction.like, query_useraction.ppdown, query_useraction.pplike
         | from (
         | (
