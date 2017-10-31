@@ -34,7 +34,7 @@ object UserClientFeatureCSV {
 
     val userClientUDF = udf((row: String) => {
       // 因为个性化热搜只在android和iphone有 故只按照顺序取这两个客户端 如果没有iphone或android则用other表示
-      // 110860866	pc:0.51724136,android:0.4827586
+      // 110860866	pc:0.51724136,android:0.4827586,iPhone:0.000001
       val userClientArray = new Array[String](2)
       val array = row.split("\t")
       val uid = array(0)
@@ -68,5 +68,7 @@ object UserClientFeatureCSV {
     if(fileSystem.exists(new Path(output))) fileSystem.delete(new Path(output), true)
 
     userClientDF.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save(output)
+
+    spark.stop()
   }
 }

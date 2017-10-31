@@ -55,5 +55,7 @@ object TrainSampleCSV {
     if(fileSystem.exists(new Path(output))) fileSystem.delete(new Path(output), true)
 
     trainSampleDF.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save(output)
+
+    spark.stop()
   }
 }

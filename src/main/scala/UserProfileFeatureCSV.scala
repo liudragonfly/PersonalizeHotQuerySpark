@@ -36,6 +36,7 @@ object UserProfileFeatureCSV {
       val userProfileArray = new Array[String](2)
       val array = row.split("\t")
       val uid = array(0)
+      // 0 unknow;1 male;2 female
       val gender = array(2) match {
         case "0" => "0"
         case "1" => "1"
@@ -56,5 +57,7 @@ object UserProfileFeatureCSV {
     if(fileSystem.exists(new Path(output))) fileSystem.delete(new Path(output), true)
 
     userProfileDF.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save(output)
+
+    spark.stop()
   }
 }
