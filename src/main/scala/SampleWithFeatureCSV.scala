@@ -36,7 +36,7 @@ object SampleWithFeatureCSV {
     spark.read.option("header", "true").csv(userClientInput).createOrReplaceTempView("user_client")
     spark.read.option("header", "true").csv(userProfileInput).createOrReplaceTempView(("user_profile"))
     spark.read.option("header", "true").csv(queryUserActionInput).createOrReplaceTempView("query_useraction")
-    // TODO: 多个表进行join
+    // 多个表进行join
     val sampleWithFeatureDF = spark.sql(
       """select sample.uid, sample.queryid, sample.label, user_client.client, user_profile.gender,
         | query_useraction.total, query_useraction.click, query_useraction.ps_count, query_useraction.add,

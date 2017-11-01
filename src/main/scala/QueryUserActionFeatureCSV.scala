@@ -68,11 +68,21 @@ object QueryUserActionFeatureCSV {
     resultDF.printSchema()
     resultDF.show()
 
+    // 由于hash生成的queryid可能存在冲突 需要对queryid进行去重操作
+    resultDF.createOrReplaceTempView("result")
+    val resultUniqueQueryidDF = spark.sql(
+      """select * from(
+        |select id, q, total, click, ps_count, add, download, like, ppdown, pplike, rank, row_number() over (partition by queryid order by total desc) rank_by_queryid from result
+        |) rk
+        |where rk.rank_by_queryid=1 order by total desc
+      """.stripMargin)
+    resultUniqueQueryidDF.printSchema()
+
     val fileSystem = FileSystem.get(spark.sparkContext.hadoopConfiguration)
 
     if(fileSystem.exists(new Path(output))) fileSystem.delete(new Path(output), true)
 
-    resultDF.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save(output)
+    resultUniqueQueryidDF.coalesce(1).write.format("com.databricks.spark.csv").option("header", "true").save(output)
 
     spark.stop()
   }
