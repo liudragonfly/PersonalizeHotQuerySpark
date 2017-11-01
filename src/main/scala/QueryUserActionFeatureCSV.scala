@@ -66,7 +66,6 @@ object QueryUserActionFeatureCSV {
     val resultDF = infoMaxTotalDF.withColumn("queryid", queryidUDF($"q"))
 
     resultDF.printSchema()
-    resultDF.show()
 
     // 由于hash生成的queryid可能存在冲突 需要对queryid进行去重操作
     resultDF.createOrReplaceTempView("result")
