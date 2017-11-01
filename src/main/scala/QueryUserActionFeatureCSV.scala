@@ -71,7 +71,7 @@ object QueryUserActionFeatureCSV {
     resultDF.createOrReplaceTempView("result")
     val resultUniqueQueryidDF = spark.sql(
       """select * from(
-        |select id, q, total, click, ps_count, add, download, like, ppdown, pplike, rank, row_number() over (partition by queryid order by total desc) rank_by_queryid from result
+        |select id, q, total, click, ps_count, add, download, like, ppdown, pplike, queryid, rank, row_number() over (partition by queryid order by total desc) rank_by_queryid from result
         |) rk
         |where rk.rank_by_queryid=1 order by total desc
       """.stripMargin)
