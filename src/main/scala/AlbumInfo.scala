@@ -38,7 +38,7 @@ object AlbumInfo {
 
 
     val resultDF = spark.sql(
-      s"""SELECT id, artistid, name, artistname, artists, score
+      s"""SELECT id, artistid, name, artistname, artists, score, fee
          |FROM music_album
          |WHERE id>0
          |AND valid=99
